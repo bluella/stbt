@@ -1,17 +1,39 @@
-# =============================================================================
-# DEPRECATION WARNING:
-#
-# The file `requirements.txt` does not influence the package dependencies and
-# will not be automatically created in the next version of PyScaffold (v4.x).
-#
-# Please have look at the docs for better alternatives
-# (`Dependency Management` section).
-# =============================================================================
-#
-# Add your pinned requirements so that they can be easily installed with:
-# pip install -r requirements.txt
-# Remember to also add them in setup.cfg but unpinned.
-# Example:
-# numpy==1.13.3
-# scipy==1.0
-
+astroid==2.2.5
+atomicwrites==1.3.0
+attrs==19.1.0
+certifi==2019.3.9
+chardet==3.0.4
+cycler==0.10.0
+decorator==4.4.0
+ffn==0.3.4
+future==0.17.1
+idna==2.8
+isort==4.3.20
+joblib==0.13.2
+kiwisolver==1.1.0
+lazy-object-proxy==1.4.1
+lxml==4.3.3
+matplotlib==3.0.3
+mccabe==0.6.1
+more-itertools==7.0.0
+numpy==1.16.3
+pandas==0.24.2
+pandas-datareader==0.7.0
+pluggy==0.11.0
+py==1.8.0
+pylint==2.3.1
+pyparsing==2.4.0
+pytest==4.5.0
+python-dateutil==2.8.0
+pytz==2019.1
+requests==2.22.0
+scikit-learn==0.21.1
+scipy==1.2.1
+seaborn==0.9.0
+six==1.12.0
+STB==0.0.post0.dev1+ge3ae2ba.dirty
+tabulate==0.8.3
+typed-ast==1.3.5
+urllib3==1.25.2
+wcwidth==0.1.7
+wrapt==1.11.1

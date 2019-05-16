@@ -1,5 +1,5 @@
 ===
-STB
+Simple_trading_backtest
 ===
 
 
