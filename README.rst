@@ -18,13 +18,13 @@ Install via setup.py:
 Usage
 =====
 
-.. code-block:: python
+.. codeblock:: python
    import datetime as dt
    import pandas as pd
    import matplotlib.pyplot as plt
    from Simple_trading_backtest.simulator import Strategy
    import Simple_trading_backtest.helpers as hlp
-::
+
 # creating fake trading data
 
 # prepare datetime index
