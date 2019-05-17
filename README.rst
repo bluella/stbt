@@ -10,9 +10,9 @@ Installation
 Install via setup.py:
 
 .. codeblock::
-    git clone git@github.com:bluella/Simple_trading_backtest.git
-    cd Simple_trading_backtest
-    python setup.py install
+   git clone git@github.com:bluella/Simple_trading_backtest.git
+   cd Simple_trading_backtest
+   python setup.py install
 
 
 Usage
