@@ -9,16 +9,16 @@ Installation
 
 Install via setup.py:
 
-```
+.. code-block::
 git clone git@github.com:bluella/Simple_trading_backtest.git
 cd Simple_trading_backtest
 python setup.py install
-```
+::
 
 Usage
 =====
 
-```python
+.. code-block:: python
 import datetime as dt
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -46,6 +46,5 @@ s = Strategy(closes_df, weights_df, cash=100)
 s.run_all(delay=2, verify_data_integrity=True, instruments_drop=None,
           commissions_const=0, capitalization=False)
 plt.show()
-```
-
+::
 
