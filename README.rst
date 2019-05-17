@@ -9,16 +9,19 @@ Installation
 
 Install via setup.py:
 
-.. codeblock::
-   git clone git@github.com:bluella/Simple_trading_backtest.git
-   cd Simple_trading_backtest
-   python setup.py install
 
+.. code-block::
+
+    git clone git@github.com:bluella/Simple_trading_backtest.git
+    cd Simple_trading_backtest
+    python setup.py install
 
 Usage
 =====
 
-.. codeblock:: python
+
+.. code-block:: python
+
     import datetime as dt
     import pandas as pd
     import matplotlib.pyplot as plt
@@ -46,5 +49,3 @@ Usage
     s.run_all(delay=2, verify_data_integrity=True, instruments_drop=None,
             commissions_const=0, capitalization=False)
     plt.show()
-
-
