@@ -24,7 +24,7 @@ Usage
    import matplotlib.pyplot as plt
    from Simple_trading_backtest.simulator import Strategy
    import Simple_trading_backtest.helpers as hlp
-
+::
 # creating fake trading data
 
 # prepare datetime index
