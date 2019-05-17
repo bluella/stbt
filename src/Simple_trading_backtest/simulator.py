@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
+"""Module with Strategy class to all
+   backtest related manipulations"""
 import logging
 import pickle
 import operator
 import pandas as pd
 import numpy as np
-import scipy as ss
-import datetime as dt
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import matplotlib.dates as mdates
@@ -25,9 +26,9 @@ logger.setLevel(logging.INFO)
 
 
 class Strategy(object):
-    ''' Class for various alpha backtesting'''
+    ''' Class for various backtesting'''
 
-    def __init__(self, data_df, weights_df, cash=1.0):
+    def __init__(self, data_df, weights_df, pool_file='strategy_pool.pickle', cash=1.0):
         """
 Initialize data, weights and cash, they are same for all methods.
 Parameters
@@ -49,7 +50,7 @@ None
             weights_df.abs().sum(axis=1), axis=0).fillna(0)
         self.instruments = []  # not in use
         self.cash = cash  # not in use, because reasons
-        self.pool_file = 'strategy_pool.pickle'
+        self.pool_file = pool_file
         self.data_mistakes_dict = {
             'shape': 0,
             'index_type': 0,
@@ -58,8 +59,11 @@ None
             'missed': 0,
             'dates_values': 0,
             'column_names': 0}
+        self.stats_figure = None
+        self.strategy_figure = None
+        self.tests_figure = None
 
-    def verify_data_integrity(self, frequency=None, *args):
+    def verify_data_integrity(self, frequency=None):
         """
 Check data for mistakes
 Parameters
@@ -90,10 +94,10 @@ None
             self.data_mistakes_dict['duplicates'] += 1
 
         # NaNs
-        for i in ((len(self.data) - self.data.count()).values):
+        for i in (len(self.data) - self.data.count()).values:
             if i != 0:
                 self.data_mistakes_dict['Nans'] += 1
-        for i in ((self.weights.count() - len(self.weights)).values):
+        for i in (self.weights.count() - len(self.weights)).values:
             if i != 0:
                 self.data_mistakes_dict['Nans'] += 1
                 inds = pd.isnull(self.weights).any(1).nonzero()[0]
@@ -132,9 +136,8 @@ None
         else:
             logger.debug('Data in Strategy is okay, good to go')
 
-        pass
-
-    def backtest(self, delay=1, instruments_drop=None, commissions_const=0.0, capitalization=False, start_date=None, end_date=None, *args):
+    def backtest(self, delay=1, instruments_drop=None, commissions_const=0.0, capitalization=False,
+                 start_date=None, end_date=None):
         """
 Method to calculate returns and pnl
 Parameters
@@ -189,8 +192,8 @@ dict with pnl, returns, commissions dataframes
         commissions = pd.DataFrame(
             np.zeros(len(simulate_data)), index=simulate_data.index, columns=['coms'])
         returns_df = pd.DataFrame()
-        pnl = pd.DataFrame(np.zeros(len(simulate_data)), index=simulate_data.index, columns=[
-                           '_'.join(simulate_data.columns)])
+        pnl = pd.DataFrame(np.zeros(len(simulate_data)), index=simulate_data.index,
+                           columns=['_'.join(simulate_data.columns)])
         inst_sum_returns = pd.DataFrame(
             np.zeros(len(simulate_data)), index=simulate_data.index)
         #########################################################
@@ -229,7 +232,6 @@ dict with pnl, returns, commissions dataframes
             fake_returns.iloc[0][0] = self.cash
             pnl[pnl.columns[0]] = ((fake_returns + 1).cumprod())
 
-        pass
         #########################################################
         logger.debug('Strategy was backtested')
 
@@ -242,7 +244,7 @@ dict with pnl, returns, commissions dataframes
             'commissions_const': commissions_const
         }
 
-    def calculate_sim_stats(self, pnl, returns, *args):
+    def calculate_sim_stats(self, pnl, returns):
         """
 Method to calculate vatious statistics of simulation
 Parameters
@@ -367,7 +369,7 @@ dict sim_stats_dict with great deal of stats
 
         return sim_stats_dict
 
-    def plot_sim_results(self, pnl, returns, *args):
+    def plot_sim_results(self, pnl):
         """
 Method to visualize simulation
 Parameters
@@ -405,7 +407,8 @@ figure with 4 plots:data, pnl, weights, returns
 
         logger.debug('Graph with backtest results was created')
 
-    def run_tests(self, *args):
+    def run_tests(self):
+        """Method to check strategy robusness against time and comissions"""
         list_of_res_dicts = []
         tests = [
             {'delay': 1},
@@ -430,7 +433,8 @@ figure with 4 plots:data, pnl, weights, returns
 
         return list_of_res_dicts
 
-    def run_all(self, delay=1, verify_data_integrity=True, instruments_drop=None, commissions_const=0, capitalization=False, start_date=None, end_date=None, *args):
+    def run_all(self, delay=1, verify_data_integrity=True, instruments_drop=None,
+                commissions_const=0, capitalization=False, start_date=None, end_date=None):
         """
 Method to get all info about strategy
 Parameters
@@ -455,20 +459,21 @@ None, just prints info and draws graphs
                                      start_date=start_date,
                                      end_date=end_date)
 
-        self.plot_sim_results(results_dict['pnl'], results_dict['returns'])
+        self.plot_sim_results(results_dict['pnl'])
         sim_stats_dict = self.calculate_sim_stats(results_dict['pnl'], results_dict['returns'])
         logger.debug(str(sim_stats_dict))
         self.run_tests()
 
-    def get_alphas_pool(self, *args):
+    def get_pnls_pool(self):
+        """Method to read all pnls from self.pool_file"""
         with open(self.pool_file, 'rb') as f:
             pnls_df = pickle.load(f)
 
         return pnls_df
 
-    def add_to_alphas_pool(self, pnl_df, *args):
-
-        pnls_df = self.get_alphas_pool()
+    def add_to_pnls_pool(self, pnl_df):
+        """Method to add pnls to self.pool_file"""
+        pnls_df = self.get_pnls_pool()
         if len(pnl_df) == len(pnls_df):
             pnls_df = pnls_df.join(pnl_df)
             with open(self.pool_file, 'wb') as f:
@@ -480,8 +485,9 @@ None, just prints info and draws graphs
 
         return pnls_df
 
-    def get_pool_heatmap(self, *args):
-        pnls_df = self.get_alphas_pool()
+    def get_pool_heatmap(self):
+        """Method to visualize self.pool_file"""
+        pnls_df = self.get_pnls_pool()
         corr = pnls_df.corr()
 
         figure = plt.figure()
@@ -490,10 +496,11 @@ None, just prints info and draws graphs
 
         return figure, corr
 
-    def get_max_corr(self, pnl, *args):
+    def get_max_corr(self, pnl):
+        """Method to get highest correlation with pnl from self.pool_file"""
         corr_dict = {}
         try:
-            pnls_df = self.get_alphas_pool()
+            pnls_df = self.get_pnls_pool()
             time_delta = pnl.index[1] - pnl.index[0]
             if time_delta != pd.Timedelta(1, 'h'):
                 pnl = hf.resample(pnl, 'H')
@@ -524,11 +531,12 @@ None, just prints info and draws graphs
 # Special functions:
 
 def get_correlation(list_of_pnls, plot=True):
+    """Function to get correlation heatmap"""
     pnl_df = pd.DataFrame()
     for i in range(len(list_of_pnls)):
         list_of_pnls[i].rename(
             columns={list_of_pnls[i].columns[0]: "{}".format(i)}, inplace=True)
-        if len(pnl_df) < 1:
+        if pnl_df.empty:
             pnl_df = list_of_pnls[i]
         else:
             pnl_df = pnl_df.join(list_of_pnls[i])

@@ -1,16 +1,13 @@
-import sys
-import csv
-import os
+#!/usr/bin/env python3
+"""Module with Strategy class to all
+   backtest related manipulations"""
 import pandas as pd
-import datetime as dt
-import json
-import time
-import io
 import numpy as np
 import matplotlib
-matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
+matplotlib.use('TkAgg')
+
 
 def plot_charts(df, name):
     '''in: ohlc_df, str; out: saved .png graph,'''
@@ -37,14 +34,16 @@ def plot_charts(df, name):
     plt.savefig('{}.png'.format(name))
 
 def resample(df, frequency='H'):
+    """Function to change frequency and fill the gaps"""
     df = df.resample(frequency).ffill()
     df = df.fillna(0)
-    # df.index = df.index.strftime('%Y-%m-%d %H:%m:%s')
+
     return df
 
 
 
 def get_sharpe(df):
+    """Function to calculate sharpe ratio"""
     if isinstance(df, pd.DataFrame):
         return round((np.sqrt(len(df)) * df.mean() / df.std().values).values[0], 2)
     else:
@@ -60,11 +59,8 @@ def get_max_Drawdown(returns):
     start = r.loc[:end].idxmax()
     return mdd, start, end
 
-
-
-
-
 def get_label_from_dict(settings_dict):
+    """Function to get name from dict"""
     label = ''
     if 'delay' in settings_dict.keys():
         label += 'd' + str(settings_dict['delay'])

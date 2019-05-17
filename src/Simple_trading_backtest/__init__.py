@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+"""Module to make package from folder"""
 from pkg_resources import get_distribution, DistributionNotFound
 
 try:
