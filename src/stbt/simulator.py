@@ -51,6 +51,8 @@ None
         self.instruments = []  # not in use
         self.cash = cash  # not in use, because reasons
         self.pool_file = pool_file
+        self.pnl = None
+        self.stats_dict = {}
         self.data_mistakes_dict = {
             'shape': 0,
             'index_type': 0,
@@ -460,8 +462,9 @@ None, just prints info and draws graphs
                                      end_date=end_date)
 
         self.plot_sim_results(results_dict['pnl'])
-        sim_stats_dict = self.calculate_sim_stats(results_dict['pnl'], results_dict['returns'])
-        logger.debug(str(sim_stats_dict))
+        self.pnl = results_dict['pnl']
+        self.stats_dict = self.calculate_sim_stats(results_dict['pnl'], results_dict['returns'])
+        logger.debug(str(self.stats_dict))
         self.run_tests()
 
     def get_pnls_pool(self):
@@ -471,17 +474,23 @@ None, just prints info and draws graphs
 
         return pnls_df
 
-    def add_to_pnls_pool(self, pnl_df):
+    def add_to_pnls_pool(self, pnl_df=None):
         """Method to add pnls to self.pool_file"""
-        pnls_df = self.get_pnls_pool()
-        if len(pnl_df) == len(pnls_df):
-            pnls_df = pnls_df.join(pnl_df)
+        if not pnl_df:
+            pnl_df = self.pnl
+        try:
+            pnls_df = self.get_pnls_pool()
+            if len(pnl_df) == len(pnls_df):
+                pnls_df = pnls_df.join(pnl_df)
+                with open(self.pool_file, 'wb') as f:
+                    pickle.dump(pnls_df, f)
+            else:
+                logger.error('Length of dfs is inconsistent: cant save such pnls!')
+
+        except FileNotFoundError:
+            pnls_df = pnl_df
             with open(self.pool_file, 'wb') as f:
                 pickle.dump(pnls_df, f)
-
-        else:
-            logger.error('Length of dfs is inconsistent: cant save such pnls!')
-
 
         return pnls_df
 

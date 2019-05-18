@@ -2,9 +2,8 @@
 Changelog
 =========
 
-Version 0.1
+Version 0.0.1
 ===========
 
-- Feature A added
-- FIX: nasty bug #1729 fixed
-- add your changes here!
+- Main backtesting functionality works
+- Docs added
