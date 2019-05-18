@@ -44,8 +44,29 @@ Usage
     weights_df = pd.DataFrame({'Date': days, 'inst1': weights_values})
     weights_df.set_index('Date', inplace=True)
 
-
+    # create strategy
     s = Strategy(closes_df, weights_df, cash=100)
+
+    # run backtest, robust tests, calculate stats
     s.run_all(delay=2, verify_data_integrity=True, instruments_drop=None,
             commissions_const=0, capitalization=False)
+
+    # check strategy stats
+    print(s.stats_dict)
+
+    # save strategy to futher comparison
+    s.add_to_pnls_pool()
+
+    # plot pool correlation heatmap
+    heatmap_fig, corr_matrix = s.get_pool_heatmap()
+
     plt.show()
+
+Features
+========
+
+License
+=======
+
+This project is licensed under the MIT License -
+see the LICENSE.txt file for details
