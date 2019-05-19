@@ -1,3 +1,4 @@
+"""sphinx main configuration file"""
 # -*- coding: utf-8 -*-
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -35,7 +36,7 @@ except ImportError:
     from sphinx import apidoc
 
 output_dir = os.path.join(__location__, "api")
-module_dir = os.path.join(__location__, "../src/stb")
+module_dir = os.path.join(__location__, "../src/stbt")
 try:
     shutil.rmtree(output_dir)
 except FileNotFoundError:
@@ -46,27 +47,28 @@ try:
     from pkg_resources import parse_version
 
     cmd_line_template = "sphinx-apidoc -f -o {outputdir} {moduledir}"
-    cmd_line = cmd_line_template.format(outputdir=output_dir, moduledir=module_dir)
+    cmd_line = cmd_line_template.format(
+        outputdir=output_dir, moduledir=module_dir)
 
     args = cmd_line.split(" ")
     if parse_version(sphinx.__version__) >= parse_version('1.7'):
         args = args[1:]
 
     apidoc.main(args)
-except Exception as e:
+except BaseException as e:
     print("Running `sphinx-apidoc` failed!\n{}".format(e))
 
 # -- General configuration -----------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
-# needs_sphinx = '1.0'
+needs_sphinx = '1.3'
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo',
               'sphinx.ext.autosummary', 'sphinx.ext.viewcode', 'sphinx.ext.coverage',
               'sphinx.ext.doctest', 'sphinx.ext.ifconfig', 'sphinx.ext.mathjax',
-              'sphinx.ext.napoleon']
+              'sphinx.ext.napoleon', 'alabaster']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -81,7 +83,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'STB'
+project = u'stbt'
 copyright = u'2019, Igor Grigorev'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -123,6 +125,7 @@ exclude_patterns = ['_build']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
+# pygments_style = "flask_theme_support.FlaskyStyle"
 
 # A list of ignored prefixes for module index sorting.
 # modindex_common_prefix = []
@@ -137,12 +140,18 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 html_theme = 'alabaster'
 
+
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'sidebar_width': '300px',
-    'page_width': '1200px'
+    "show_powered_by": False,
+    "github_user": "bluella",
+    "github_repo": "stbt",
+    "github_banner": True,
+    "show_related": False,
+    "note_bg": "#FFF59C",
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
@@ -216,27 +225,27 @@ html_static_path = ['_static']
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'stb-doc'
+htmlhelp_basename = 'stbt-doc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
 
 latex_elements = {
-# The paper size ('letterpaper' or 'a4paper').
-# 'papersize': 'letterpaper',
+    # The paper size ('letterpaper' or 'a4paper').
+    # 'papersize': 'letterpaper',
 
-# The font size ('10pt', '11pt' or '12pt').
-# 'pointsize': '10pt',
+    # The font size ('10pt', '11pt' or '12pt').
+    # 'pointsize': '10pt',
 
-# Additional stuff for the LaTeX preamble.
-# 'preamble': '',
+    # Additional stuff for the LaTeX preamble.
+    # 'preamble': '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'user_guide.tex', u'STB Documentation',
-   u'Igor Grigorev', 'manual'),
+    ('index', 'user_guide.tex', u'stbt Documentation',
+     u'Igor Grigorev', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -258,6 +267,15 @@ latex_documents = [
 
 # If false, no module index is generated.
 # latex_domain_indices = True
+
+
+html_show_sourcelink = False
+html_show_sphinx = False
+html_show_copyright = True
+html_use_smartypants = False
+add_module_names = True
+
+
 
 # -- External mapping ------------------------------------------------------------
 python_version = '.'.join(map(str, sys.version_info[0:2]))

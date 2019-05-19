@@ -1,6 +1,6 @@
-=======================
-Simple_trading_backtest
-=======================
+=========================
+Simple trading backtester
+=========================
 
 This project aims to provide easy and straitforward backtesting oportunities.
 
@@ -9,12 +9,17 @@ Installation
 
 Install via setup.py:
 
-
 .. code-block:: bash
 
     git clone git@github.com:bluella/stbt.git
     cd stbt
     python setup.py install
+
+Install via pip:
+
+.. code-block:: bash
+
+    pip install stbt
 
 Usage
 =====

@@ -5,6 +5,8 @@ import datetime as dt
 import pandas as pd
 import matplotlib.pyplot as plt
 from stbt.simulator import Strategy
+
+#  stbtsimulator import Strategy
 # import Simple_trading_backtest.helpers as hlp
 
 # creating fake trading data
