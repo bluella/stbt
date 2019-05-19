@@ -140,8 +140,8 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 # html_theme_path = '_static/groundwork'
-# html_theme = 'agogo'
-html_theme = 'flask'
+html_theme = 'agogo'
+# html_theme = 'flask'
 # html_theme_path = guzzle_sphinx_theme.html_theme_path()
 # html_theme = 'guzzle_sphinx_theme'
 
@@ -175,7 +175,7 @@ html_theme = 'flask'
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
 try:
-    from stb import __version__ as version
+    from stbt import __version__ as version
 except ImportError:
     pass
 else:
