@@ -13,6 +13,7 @@ import os
 import sys
 import inspect
 import shutil
+# import guzzle_sphinx_theme
 
 __location__ = os.path.join(os.getcwd(), os.path.dirname(
     inspect.getfile(inspect.currentframe())))
@@ -68,7 +69,7 @@ needs_sphinx = '1.3'
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo',
               'sphinx.ext.autosummary', 'sphinx.ext.viewcode', 'sphinx.ext.coverage',
               'sphinx.ext.doctest', 'sphinx.ext.ifconfig', 'sphinx.ext.mathjax',
-              'sphinx.ext.napoleon', 'alabaster']
+              'sphinx.ext.napoleon', 'alabaster', 'sphinx.ext.githubpages']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -138,21 +139,35 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
+# html_theme_path = '_static/groundwork'
+# html_theme = 'agogo'
+html_theme = 'flask'
+# html_theme_path = guzzle_sphinx_theme.html_theme_path()
+# html_theme = 'guzzle_sphinx_theme'
+
+# # Register the theme as an extension to generate a sitemap.xml
+# extensions.append("guzzle_sphinx_theme")
+
+# # Guzzle theme options (see theme.conf for more information)
+# html_theme_options = {
+#     # Set the name of the project to appear in the sidebar
+#     "project_nav_name": "stbt",
+# }
+
 
 
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-html_theme_options = {
-    "show_powered_by": False,
-    "github_user": "bluella",
-    "github_repo": "stbt",
-    "github_banner": True,
-    "show_related": False,
-    "note_bg": "#FFF59C",
-}
+# html_theme_options = {
+#     "show_powered_by": False,
+#     "github_user": "bluella",
+#     "github_repo": "stbt",
+#     "github_banner": True,
+#     "show_related": False,
+#     "note_bg": "#FFF59C",
+# }
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
