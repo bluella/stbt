@@ -26,24 +26,46 @@ logger.setLevel(logging.INFO)
 
 
 class Strategy(object):
-    ''' Class for various backtesting'''
+    """Class to do all backtesting, visualization and statistics calculation
+
+    Note:
+        data_df and weights_df should have same columns(name and len)
+
+    Args:
+        data_df (DataFrame):
+            Close prices of instruments should be columns.
+        weights_df (DataFrame):
+            Money distribution for every day, same form with data_df
+        pool_file (str):
+            File to save pnl of created strategy
+        cash (float64):
+            Starting capital and returns multiplier
+
+    Attributes:
+        data (DataFrame):
+            Close prices of instruments should be columns.
+        weights (DataFrame):
+            Money distribution for every day, same form with data
+        cash (float64):
+            Starting capital and returns multiplier
+        pool_file (str):
+            File to save pnl of created strategy
+        pnl (DataFrame):
+            Accumelated profit and loss of strategy, index is time
+        stats_dict (dict):
+            All the math statistics of strategy backtest
+        data_mistakes_dict (dict):
+            All the data inconsistencies
+        stats_figure (figure):
+            Statistics visualized
+        strategy_figure (figure):
+            Strategy visualized
+        tests_figure (figure):
+            Tests visualized
+    """
 
     def __init__(self, data_df, weights_df, pool_file='strategy_pool.pickle', cash=1.0):
-        """
-Initialize data, weights and cash, they are same for all methods.
-Parameters
-----------
-data_df : df
-    Close prices of instruments should be columns.
-weights_df : df
-    Money distribution for every day, same form with data_df
-cash : float64
-    Starting capital and returns multiplier
-Returns
--------
-None
-
-"""
+        """Constructor method"""
         self.data = data_df
         # scaling weights, sum of absolute values is one for every row
         self.weights = weights_df.div(
@@ -66,17 +88,14 @@ None
         self.tests_figure = None
 
     def verify_data_integrity(self, frequency=None):
+        """Method to check data passed in constructor for mistakes
+
+        Args:
+            frequency (str):
+                Timeframe for data resampling 'D', 'W', 'M',
+                if None - do not resample data
+
         """
-Check data for mistakes
-Parameters
-----------
-frequency - e.g. 'D', 'W', 'M', if None - do not resample data
-
-Returns
--------
-None
-
-"""
         # lens
         if len(self.data) != len(self.weights):
             self.data_mistakes_dict['shape'] += 1
@@ -140,21 +159,25 @@ None
 
     def backtest(self, delay=1, instruments_drop=None, commissions_const=0.0, capitalization=False,
                  start_date=None, end_date=None):
-        """
-Method to calculate returns and pnl
-Parameters
-----------
-instruments_drop : list of strings
-    Columns with such names will be droped from data and weights
-commissions_const : float64
-    Fee paid for every transaction: 0.01 is 1% fee for every trade
-capitalization : Boolean
-    If money should be reinvested every time
-Returns
--------
-dict with pnl, returns, commissions dataframes
+        """Method to calculate returns and pnl
 
-"""
+        Args:
+            delay (int):
+                Time delay in applying weights to data
+            instruments_drop (list):
+                Columns with such names will be droped from data and weights
+            commissions_const (float64):
+                Fee paid for every transaction: 0.01 is 1% fee for every trade
+            capitalization (Boolean):
+                If money should be reinvested every time
+            start_date (datetime):
+                Date to start trading
+            end_date (datetime):
+                Date to end trading
+
+        Returns:
+            dict with pnl, returns, commissions dataframes
+        """
 
         # initialize local data for simulate
         #########################################################
@@ -247,20 +270,20 @@ dict with pnl, returns, commissions dataframes
         }
 
     def calculate_sim_stats(self, pnl, returns):
+        """Method to calculate vatious statistics of simulation
+
+        Args:
+            pnl (DataFrame):
+                Accumelated profit and loss of strategy, index is time
+            returns (DataFrame):
+                Strategy returns for every day, index is time
+
+        Returns:
+            dict sim_stats_dict with great deal of stats
+
+        Note:
+            Also creates stats_figure attribute
         """
-Method to calculate vatious statistics of simulation
-Parameters
-----------
-pnl : df
-with one column
-returns : df
-with one column
-
-Returns
--------
-dict sim_stats_dict with great deal of stats
-
-"""
 
         sim_stats_dict = {
             'start_date': str(returns.index[0]),
@@ -372,22 +395,17 @@ dict sim_stats_dict with great deal of stats
         return sim_stats_dict
 
     def plot_sim_results(self, pnl):
+        """Method to visualize previous backtest
+
+        Args:
+            pnl (DataFrame):
+                Accumelated profit and loss of strategy, index is time
+
+        Note:
+            Creates strategy_figure attribute
         """
-Method to visualize simulation
-Parameters
-----------
-pnl : df
-with one column
-returns : df
-with one column
 
-Returns
--------
-figure with 4 plots:data, pnl, weights, returns
-
-"""
-
-        self.strategy_figure = plt.figure(tight_layout=True)
+        self.strategy_figure = plt.figure()
 
         ax1 = plt.subplot2grid((12, 1), (0, 0), rowspan=3, colspan=1)
         ax1.plot(self.data.index.values, self.data.values)
@@ -410,7 +428,11 @@ figure with 4 plots:data, pnl, weights, returns
         logger.debug('Graph with backtest results was created')
 
     def run_tests(self):
-        """Method to check strategy robusness against time and comissions"""
+        """Method to check strategy robusness against time and comissions
+
+        Note:
+            Creates tests_figure attribute
+        """
         list_of_res_dicts = []
         tests = [
             {'delay': 1},
@@ -419,7 +441,7 @@ figure with 4 plots:data, pnl, weights, returns
             {'delay': 2, 'commissions_const': 0.001},
         ]
 
-        self.tests_figure = plt.figure(tight_layout=True)
+        self.tests_figure = plt.figure()
         ax = plt.subplot2grid((12, 1), (0, 0), rowspan=12, colspan=1)
 
         test_number = 0
@@ -437,21 +459,22 @@ figure with 4 plots:data, pnl, weights, returns
 
     def run_all(self, delay=1, verify_data_integrity=True, instruments_drop=None,
                 commissions_const=0, capitalization=False, start_date=None, end_date=None):
-        """
-Method to get all info about strategy
-Parameters
-----------
-instruments_drop : list of strings
-    Columns with such names will be droped from data and weights
-commissions_const : float64
-    Fee paid for every transaction: 0.01 is 1% fee for every trade
-capitalization : Boolean
-    If money should be reinvested every time
-Returns
--------
-None, just prints info and draws graphs
+        """Method to get all info about strategy(run all methods)
 
-"""
+        Args:
+            delay (int):
+                Time delay in applying weights to data
+            instruments_drop (list):
+                Columns with such names will be droped from data and weights
+            commissions_const (float64):
+                Fee paid for every transaction: 0.01 is 1% fee for every trade
+            capitalization (Boolean):
+                If money should be reinvested every time
+            start_date (datetime):
+                Date to start trading
+            end_date (datetime):
+                Date to end trading
+        """
         if verify_data_integrity:
             self.verify_data_integrity()
         results_dict = self.backtest(instruments_drop=instruments_drop,
@@ -491,6 +514,10 @@ None, just prints info and draws graphs
             pnls_df = pnl_df
             with open(self.pool_file, 'wb') as f:
                 pickle.dump(pnls_df, f)
+
+        except ValueError:
+            logger.error('''You are trying to add pnl which already exists!
+(change column name to add it)''')
 
         return pnls_df
 
@@ -540,7 +567,19 @@ None, just prints info and draws graphs
 # Special functions:
 
 def get_correlation(list_of_pnls, plot=True):
-    """Function to get correlation heatmap"""
+    """Function to get correlation heatmap
+
+    Args:
+        list_of_pnls (list):
+            List with dataframes of pnls
+
+    Returns:
+        corr (DataFrame):
+            Matrix of correalations
+        figure (figure):
+            Seaborn heatmap
+    """
+
     pnl_df = pd.DataFrame()
     for i in range(len(list_of_pnls)):
         list_of_pnls[i].rename(

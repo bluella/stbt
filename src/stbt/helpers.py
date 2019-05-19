@@ -8,13 +8,23 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 matplotlib.use('TkAgg')
 
+def plot_charts(df):
+    """Function to plot simple Close/Volume graph
 
-def plot_charts(df, name):
-    '''in: ohlc_df, str; out: saved .png graph,'''
+    Args:
+        df (DataFrame):
+            Close and Volume columns are necessary
+
+    Returns:
+        figure (figure):
+            Matplotlib graph
+    """
     if str(type(df.index[0])) == "<class 'pandas._libs.tslib.Timestamp'>":
         pass
     else:
         df.index = pd.to_datetime(df.index)
+
+    figure = plt.figure()
 
     ax1 = plt.subplot2grid((8, 1), (0, 0), rowspan=5, colspan=1)
     ax1.plot(df.index, df['Close'], label='Close')
@@ -31,7 +41,7 @@ def plot_charts(df, name):
 
     plt.ylabel('Volume')
 
-    plt.savefig('{}.png'.format(name))
+    return figure
 
 def resample(df, frequency='H'):
     """Function to change frequency and fill the gaps"""
@@ -76,23 +86,29 @@ def get_label_from_dict(settings_dict):
 
 
 
-def csv_resampling_and_correction(csv_in, csv_out, frequency=None, cols_to_drop=None):
-    '''
-    Function to modify a csv file to the required format, checking for wrong entries
-    and filling nans. Saves output to csv file.
+def correct_ohlc_df(df, frequency=None, cols_to_drop=None):
+    """Function to modify df to the required format, checking for wrong entries
+    and filling nans
 
-    args: csv_file name as a string ending with '.csv'
+    Args:
+        df (DataFrame):
+            Close, Open, Low, High and Volume columns are necessary
+        frequency (str):
+            Resample frequency 'D', 'W', 'M', if None - do not resample data
+        cols_to_drop (list):
+            names of unnecessary columns in df
 
-    kwargs: {frequency - e.g. 'D', 'W', 'M', if None - do not resample data,
-          cols_to_drop - list of columns to drop, if None - do not drop any columns
-          }
-    '''
+    Returns:
+        df (DataFrame):
+            Repaired df
+    """
     if cols_to_drop is None:
         cols_to_drop = []
 
-    df = pd.read_csv(csv_in, index_col='Date')
-    df.drop(cols_to_drop, axis=1, inplace=True)
-    df.index = pd.to_datetime(df.index)
+    if str(type(df.index[0])) == "<class 'pandas._libs.tslib.Timestamp'>":
+        pass
+    else:
+        df.index = pd.to_datetime(df.index)
 
     # resampling data if needed
     if frequency is not None:
@@ -129,4 +145,4 @@ def csv_resampling_and_correction(csv_in, csv_out, frequency=None, cols_to_drop=
 
     df.index.name = 'Date'
 
-    df.to_csv(csv_out)
+    return df
