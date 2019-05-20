@@ -116,7 +116,7 @@ Links
 
     * `Pypi <https://pypi.org/project/stbt/>`_
 
-    * `readthedocs <https://readthedocs.org/projects/stbt/>`_
+    * `readthedocs <stbt.rtfd.io>`_
 
     * `GitHub <https://github.com/bluella/stbt>`_
 
