@@ -14,14 +14,14 @@ import stb.helpers as hf
 
 # logging
 ###########################################################################
-log_format = '%(asctime)s: %(filename)s: %(funcName)s: %(message)s'
-formatter = logging.Formatter(log_format, datefmt='%b %d %H:%M:%S')
-syslog = logging.StreamHandler()
-syslog.setFormatter(formatter)
+LOG_FORMAT = '%(asctime)s: %(filename)s: %(funcName)s: %(message)s'
+FORMATTER = logging.Formatter(LOG_FORMAT, datefmt='%b %d %H:%M:%S')
+SYSLOG = logging.StreamHandler()
+SYSLOG.setFormatter(FORMATTER)
 
-logger = logging.getLogger('simulator')
-logger.addHandler(syslog)
-logger.setLevel(logging.INFO)
+LOGGER = logging.getLogger('simulator')
+LOGGER.addHandler(SYSLOG)
+LOGGER.setLevel(logging.INFO)
 ###########################################################################
 
 
@@ -122,7 +122,7 @@ class Strategy(object):
             if i != 0:
                 self.data_mistakes_dict['Nans'] += 1
                 inds = pd.isnull(self.weights).any(1).nonzero()[0]
-                logger.debug('wrong indexes: {}'.format(inds))
+                LOGGER.debug('wrong indexes: %s', inds)
 
         # missed
         if frequency:
@@ -149,13 +149,13 @@ class Strategy(object):
         data_is_okay = True
         for key in self.data_mistakes_dict:
             if self.data_mistakes_dict[key] != 0:
-                logger.error('There are mistakes in data!, self.data_mistakes_dict: {}'
-                             .format(self.data_mistakes_dict))
+                LOGGER.error('There are mistakes in data!, self.data_mistakes_dict: %s',
+                             self.data_mistakes_dict)
                 data_is_okay = False
         if not data_is_okay:
             raise ValueError('Take a look at data passed to Strategy')
         else:
-            logger.debug('Data in Strategy is okay, good to go')
+            LOGGER.debug('Data in Strategy is okay, good to go')
 
     def backtest(self, delay=1, instruments_drop=None, commissions_const=0.0, capitalization=False,
                  start_date=None, end_date=None):
@@ -258,7 +258,7 @@ class Strategy(object):
             pnl[pnl.columns[0]] = ((fake_returns + 1).cumprod())
 
         #########################################################
-        logger.debug('Strategy was backtested')
+        LOGGER.debug('Strategy was backtested')
 
         return {
             'pnl': pnl,
@@ -334,7 +334,7 @@ class Strategy(object):
             round(returns_resampled_30d.mean()[0] * 100, 2)) + '%'
 
         # Max Drawdawn
-        dd_tuple = hf.get_max_Drawdown(returns.iloc[:, 0])
+        dd_tuple = hf.get_max_drawdown(returns.iloc[:, 0])
         sim_stats_dict['Max_Drawdown'] = str(
             round(abs(dd_tuple[0]) * 100, 1)) + '%'
 
@@ -355,42 +355,42 @@ class Strategy(object):
         # plot stats
         self.stats_figure = plt.figure(tight_layout=True)
 
-        ax = plt.subplot2grid((12, 1), (0, 0), rowspan=2, colspan=1)
-        ax.plot(returns_resampled_30d.index.values,
-                returns_resampled_30d.values)
-        ax.plot(returns_resampled_30d.index.values,
-                np.zeros(len(returns_resampled_30d)), 'r--')
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-        ax.xaxis.set_major_locator(mticker.MaxNLocator(5))
+        axis = plt.subplot2grid((12, 1), (0, 0), rowspan=2, colspan=1)
+        axis.plot(returns_resampled_30d.index.values,
+                  returns_resampled_30d.values)
+        axis.plot(returns_resampled_30d.index.values,
+                  np.zeros(len(returns_resampled_30d)), 'r--')
+        axis.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        axis.xaxis.set_major_locator(mticker.MaxNLocator(5))
         plt.title('Avg_returns_30d')
 
-        ax2 = plt.subplot2grid((12, 1), (3, 0), rowspan=2, colspan=1)
-        ax2.plot(df_resampled_sharpe_30d.index.values,
-                 df_resampled_sharpe_30d.values)
-        ax2.plot(df_resampled_sharpe_30d.index.values,
-                 np.zeros(len(df_resampled_sharpe_30d)), 'r--')
-        ax2.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-        ax2.xaxis.set_major_locator(mticker.MaxNLocator(5))
+        axis2 = plt.subplot2grid((12, 1), (3, 0), rowspan=2, colspan=1)
+        axis2.plot(df_resampled_sharpe_30d.index.values,
+                   df_resampled_sharpe_30d.values)
+        axis2.plot(df_resampled_sharpe_30d.index.values,
+                   np.zeros(len(df_resampled_sharpe_30d)), 'r--')
+        axis2.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        axis2.xaxis.set_major_locator(mticker.MaxNLocator(5))
         plt.title('Sharpe_30d')
 
-        ax3 = plt.subplot2grid((12, 1), (6, 0), rowspan=2, colspan=1)
-        ax3.plot(df_resampled_sharpe_90d.index.values,
-                 df_resampled_sharpe_90d.values)
-        ax3.plot(df_resampled_sharpe_90d.index.values,
-                 np.zeros(len(df_resampled_sharpe_90d)), 'r--')
-        ax3.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-        ax3.xaxis.set_major_locator(mticker.MaxNLocator(5))
+        axis3 = plt.subplot2grid((12, 1), (6, 0), rowspan=2, colspan=1)
+        axis3.plot(df_resampled_sharpe_90d.index.values,
+                   df_resampled_sharpe_90d.values)
+        axis3.plot(df_resampled_sharpe_90d.index.values,
+                   np.zeros(len(df_resampled_sharpe_90d)), 'r--')
+        axis3.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        axis3.xaxis.set_major_locator(mticker.MaxNLocator(5))
         plt.title('Sharpe_90d')
 
-        ax4 = plt.subplot2grid((12, 1), (9, 0), rowspan=2, colspan=1)
-        ax4.plot(turnover_resampled.index.values, turnover_resampled.values)
-        ax4.plot(turnover_resampled.index.values,
-                 np.zeros(len(turnover_resampled)), 'r--')
-        ax4.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-        ax4.xaxis.set_major_locator(mticker.MaxNLocator(5))
+        axis4 = plt.subplot2grid((12, 1), (9, 0), rowspan=2, colspan=1)
+        axis4.plot(turnover_resampled.index.values, turnover_resampled.values)
+        axis4.plot(turnover_resampled.index.values,
+                   np.zeros(len(turnover_resampled)), 'r--')
+        axis4.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        axis4.xaxis.set_major_locator(mticker.MaxNLocator(5))
         plt.title('Turnover_daily_30d_mean')
 
-        logger.debug('Statistics for strategy were calculated:')
+        LOGGER.debug('Statistics for strategy were calculated:')
 
         return sim_stats_dict
 
@@ -425,7 +425,7 @@ class Strategy(object):
         ax3.xaxis.set_major_locator(mticker.MaxNLocator(5))
         plt.title('Weights')
 
-        logger.debug('Graph with backtest results was created')
+        LOGGER.debug('Graph with backtest results was created')
 
     def run_tests(self):
         """Method to check strategy robusness against time and comissions
@@ -442,16 +442,16 @@ class Strategy(object):
         ]
 
         self.tests_figure = plt.figure()
-        ax = plt.subplot2grid((12, 1), (0, 0), rowspan=12, colspan=1)
+        axis = plt.subplot2grid((12, 1), (0, 0), rowspan=12, colspan=1)
 
         test_number = 0
         for test in tests:
             list_of_res_dicts.append(self.backtest(**test))
-            ax.plot(self.weights.index,
-                    list_of_res_dicts[-1]['pnl'], label='{}'.format(hf.get_label_from_dict(test)))
+            axis.plot(self.weights.index,
+                      list_of_res_dicts[-1]['pnl'], label='{}'.format(hf.get_label_from_dict(test)))
             test_number += 1
-        ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-        ax.xaxis.set_major_locator(mticker.MaxNLocator(5))
+        axis.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+        axis.xaxis.set_major_locator(mticker.MaxNLocator(5))
         plt.title('Tests_pnls')
         plt.legend()
 
@@ -486,14 +486,15 @@ class Strategy(object):
 
         self.plot_sim_results(results_dict['pnl'])
         self.pnl = results_dict['pnl']
-        self.stats_dict = self.calculate_sim_stats(results_dict['pnl'], results_dict['returns'])
-        logger.debug(str(self.stats_dict))
+        self.stats_dict = self.calculate_sim_stats(
+            results_dict['pnl'], results_dict['returns'])
+        LOGGER.debug(str(self.stats_dict))
         self.run_tests()
 
     def get_pnls_pool(self):
         """Method to read all pnls from self.pool_file"""
-        with open(self.pool_file, 'rb') as f:
-            pnls_df = pickle.load(f)
+        with open(self.pool_file, 'rb') as filename:
+            pnls_df = pickle.load(filename)
 
         return pnls_df
 
@@ -505,18 +506,19 @@ class Strategy(object):
             pnls_df = self.get_pnls_pool()
             if len(pnl_df) == len(pnls_df):
                 pnls_df = pnls_df.join(pnl_df)
-                with open(self.pool_file, 'wb') as f:
-                    pickle.dump(pnls_df, f)
+                with open(self.pool_file, 'wb') as filename:
+                    pickle.dump(pnls_df, filename)
             else:
-                logger.error('Length of dfs is inconsistent: cant save such pnls!')
+                LOGGER.error(
+                    'Length of dfs is inconsistent: cant save such pnls!')
 
         except FileNotFoundError:
             pnls_df = pnl_df
-            with open(self.pool_file, 'wb') as f:
-                pickle.dump(pnls_df, f)
+            with open(self.pool_file, 'wb') as filename:
+                pickle.dump(pnls_df, filename)
 
         except ValueError:
-            logger.error('''You are trying to add pnl which already exists!
+            LOGGER.error('''You are trying to add pnl which already exists!
 (change column name to add it)''')
 
         return pnls_df
@@ -557,8 +559,9 @@ class Strategy(object):
 
             top_key = max(corr_dict.items(), key=operator.itemgetter(1))[0]
             res_list = [top_key, corr_dict[top_key]]
-        except BaseException as e:
-            logger.error(e)
+
+        except BaseException as err:
+            LOGGER.error(err)
             res_list = ['0', 0]
 
         return res_list
@@ -581,13 +584,12 @@ def get_correlation(list_of_pnls, plot=True):
     """
 
     pnl_df = pd.DataFrame()
-    for i in range(len(list_of_pnls)):
-        list_of_pnls[i].rename(
-            columns={list_of_pnls[i].columns[0]: "{}".format(i)}, inplace=True)
+    for counter, pnl in enumerate(list_of_pnls):
+        pnl.rename(columns={pnl.columns[0]: "{}".format(counter)}, inplace=True)
         if pnl_df.empty:
-            pnl_df = list_of_pnls[i]
+            pnl_df = pnl
         else:
-            pnl_df = pnl_df.join(list_of_pnls[i])
+            pnl_df = pnl_df.join(pnl)
 
     corr = pnl_df.corr()
 
