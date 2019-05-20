@@ -3,7 +3,7 @@ Simple trading backtester
 =========================
 
 Overview
---------
+========
 
 Quantitative approach to trading is done via applying mathematical models to
 various financial instruments. In order to get money for you strategy,
@@ -12,7 +12,7 @@ worth money one should do proper backtesting.
 This project aims to provide easy and straitforward backtesting oportunities.
 
 Relevance
----------
+=========
 
 There are number of python projects for backtesting: `backtrader <https://github.com/backtrader/backtrader>`_,
 `pyalgotrade <https://github.com/gbeced/pyalgotrade>`_, `zipline <https://github.com/quantopian/zipline>`_,
@@ -131,6 +131,11 @@ Futher development
     * Technical indicators support
 
     * Portfolio optimization tools
+
+Releases
+========
+
+See `CHANGELOG <https://github.com/bluella/stbt/blob/master/CHANGELOG.rst>`_
 
 License
 =======

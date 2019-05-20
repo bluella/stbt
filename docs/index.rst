@@ -5,13 +5,16 @@ Documentation for stbt project
 Contents
 ========
 
-.. toctree::
-   :maxdepth: 2
+`README <https://github.com/bluella/stbt/blob/master/README.rst>`_
 
+.. toctree::
+   :maxdepth: 1
+
+   Module Reference <api/modules>
+   Changelog <changelog>
    License <license>
    Authors <authors>
-   Changelog <changelog>
-   Module Reference <api/modules>
+
 
 
 Indices and tables
