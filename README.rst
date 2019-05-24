@@ -35,11 +35,13 @@ Features
 
 * Number of visualizations embedded
 
-* Clean and straitforward project structure
-
 * Strategy robustness tests
 
-* OHLC data checking and preparation tools
+* API to work with OHLC data(download, prepare)
+
+* Clean and straitforward project structure
+
+* PEP8 compliant code
 
 Installation
 ============
@@ -126,7 +128,7 @@ Futher development
 
     * Improve test coverage
 
-    * API for data download
+    * more API for data download
 
     * Technical indicators support
 
@@ -135,7 +137,7 @@ Futher development
 Releases
 ========
 
-See `CHANGELOG <https://github.com/bluella/stbt/blob/master/CHANGELOG.rst>`_
+See `CHANGELOG <https://github.com/bluella/stbt/blob/master/CHANGELOG.rst>`_.
 
 License
 =======
