@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import matplotlib.dates as mdates
 import seaborn as sns
-import stb.helpers as hf
+import stbt.helpers as hf
 
 # logging
 ###########################################################################
