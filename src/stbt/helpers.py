@@ -50,8 +50,6 @@ def resample(df_ohlc, frequency='H'):
 
     return df_ohlc
 
-
-
 def get_sharpe(df_ohlc):
     """Function to calculate sharpe ratio"""
     if isinstance(df_ohlc, pd.DataFrame):

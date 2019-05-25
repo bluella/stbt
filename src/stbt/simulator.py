@@ -2,15 +2,18 @@
 """Module with Strategy class to all
    backtest related manipulations"""
 import logging
+import random
 import pickle
 import operator
 import pandas as pd
+from pandas.plotting import register_matplotlib_converters
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import matplotlib.dates as mdates
 import seaborn as sns
 import stbt.helpers as hf
+register_matplotlib_converters()
 
 # logging
 ###########################################################################
@@ -498,10 +501,11 @@ class Strategy(object):
 
         return pnls_df
 
-    def add_to_pnls_pool(self, pnl_df=None):
+    def add_to_pnls_pool(self, pnl_df=None, name=str(random.randint(1, 9999)) + '_pnl'):
         """Method to add pnls to self.pool_file"""
         if not pnl_df:
             pnl_df = self.pnl
+        pnl_df.rename(columns={pnl_df.columns[0]: name}, inplace=True)
         try:
             pnls_df = self.get_pnls_pool()
             if len(pnl_df) == len(pnls_df):
