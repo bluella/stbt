@@ -71,6 +71,7 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo',
               'sphinx.ext.doctest', 'sphinx.ext.ifconfig', 'sphinx.ext.mathjax',
               'sphinx.ext.napoleon', 'alabaster', 'sphinx.ext.githubpages']
 
+autodoc_member_order = 'bysource'
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 

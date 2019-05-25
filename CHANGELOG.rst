@@ -3,6 +3,11 @@ Changelog
 =========
 
 
+Version 0.1.2
+=============
+
+- Docs reference fix
+
 Version 0.1.1
 =============
 
