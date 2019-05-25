@@ -7,20 +7,13 @@ import pandas as pd
 from stbt.helpers import get_sharpe, get_max_drawdown
 from Simple_trading_backtest.simulator import Strategy
 
-
-
 class TestStrategy(unittest.TestCase):
     """Class to test all Strategy methods"""
-
-    # def __init__(self, *args, **kwargs):
-    #     """Prepare data for futher tests"""
-    #     super(TestStrategy, self).__init__(*args, **kwargs)
-    # @pytest.mark.run(order=1)
     @classmethod
     def setUpClass(cls):
         """Prepare data for futher tests"""
-        # super(TestStrategy, cls).setUpClass()
         cls.sim_results = {}
+
         # prepare datetime index
         some_date = dt.datetime(2017, 1, 1)
         days = pd.date_range(some_date, some_date + dt.timedelta(30), freq='D')
@@ -40,22 +33,18 @@ class TestStrategy(unittest.TestCase):
 
         cls.sim_results = cls.test_strategy.backtest()
 
-
     def test_constructor(self):
         """Test to check Strategy __init__ method"""
         assert len(self.test_strategy.weights) == len(self.weights_df)
-
 
     def test_verify_data_integrity(self):
         """Test to check Strategy verify_data_integrity method
         P.S. method will raise error if data is not okay"""
         self.test_strategy.verify_data_integrity()
 
-
     def test_backtest(self):
         """Test to check Strategy backtest method"""
         assert self.sim_results['pnl'].values[2] == 250
-
 
     def test_plot_sim_results(self):
         """Test to check Strategy verify_data_integrity method
