@@ -2,6 +2,24 @@
 Changelog
 =========
 
+
+Version 0.1.1
+=============
+
+- Download data API
+- More tests
+- Technical indicators
+
+Version 0.0.7
+=============
+
+- README link bug fix
+
+Version 0.0.6
+=============
+
+- PyPi & readthedocs integration
+
 Version 0.0.5
 =============
 
