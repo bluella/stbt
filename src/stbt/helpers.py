@@ -64,7 +64,7 @@ def get_max_drawdown(returns):
     """Assumes returns is a pandas Series"""
     ret = returns.add(1).cumprod()
     daily_drawdown = ret.div(ret.cummax()).sub(1)
-    max_drawdown = daily_drawdown.min()
+    max_drawdown = round(daily_drawdown.min(), 4)
     end = daily_drawdown.idxmin()
     start = ret.loc[:end].idxmax()
     return max_drawdown, start, end

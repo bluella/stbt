@@ -128,9 +128,9 @@ Futher development
 
     * Improve test coverage
 
-    * more API for data download
+    * More API for data download
 
-    * Technical indicators support
+    * More technical indicators
 
     * Portfolio optimization tools
 
