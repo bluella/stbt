@@ -5,7 +5,7 @@ import unittest
 import datetime as dt
 import pandas as pd
 from stbt.helpers import get_sharpe, get_max_drawdown
-from Simple_trading_backtest.simulator import Strategy
+from stbt.simulator import Strategy
 
 class TestStrategy(unittest.TestCase):
     """Class to test all Strategy methods"""
