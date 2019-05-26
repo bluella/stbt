@@ -9,7 +9,7 @@ Quantitative approach to trading is done via applying mathematical models to
 various financial instruments. In order to get money for you strategy,
 mathematical model beneath it should be sound. And to prove that this model
 worth money one should do proper backtesting.
-This project aims to provide easy and straitforward backtesting oportunities.
+This project aims to provide easy and straitforward backtesting solution.
 
 Relevance
 =========
@@ -19,7 +19,7 @@ There are number of python projects for backtesting: `backtrader <https://github
 `rqalpha <https://github.com/ricequant/rqalpha>`_, etc.. When i was trying out them,
 i was dissatisfied with one or more of the following: event driven,
 unnecessary complex architecture, no support for trading multiple instruments
-in convinient way, no proper performance evaluation, bugs, etc..
+in convinient way, no proper performance evaluation, etc..
 This project solves those issues at cost of not so wide functionality
 compared to mentioned ones above.
 Project is designed to be easily build on top of it.
@@ -27,21 +27,21 @@ Project is designed to be easily build on top of it.
 Features
 ========
 
-* Data manipulations are made with pandas
+* Data manipulations are made with pandas.
 
-* Backtesting operations are vector(no loops, no event driven)
+* Backtesting operations are vector( no loops, not event driven).
 
-* Extensive statistical evaluation of strategies
+* Extensive statistical evaluation of strategies.
 
-* Number of visualizations embedded
+* Number of visualizations embedded.
 
-* Strategy robustness tests
+* Strategy robustness tests.
 
-* API to work with OHLC data(download, prepare)
+* API to work with OHLC data( download, prepare).
 
-* Clean and straitforward project structure
+* Clean and straitforward project structure.
 
-* PEP8 compliant code
+* PEP8 compliant code.
 
 Installation
 ============
@@ -75,8 +75,8 @@ Usage
     import datetime as dt
     import pandas as pd
     import matplotlib.pyplot as plt
-    from Simple_trading_backtest.simulator import Strategy
-    import Simple_trading_backtest.helpers as hlp
+    from stbt.simulator import Strategy
+    import stbt.helpers as hlp
 
     # creating fake trading data
 
@@ -118,7 +118,7 @@ Links
 
     * `Pypi <https://pypi.org/project/stbt/>`_
 
-    * `readthedocs <stbt.rtfd.io>`_
+    * `readthedocs <https://stbt.rtfd.io>`_
 
     * `GitHub <https://github.com/bluella/stbt>`_
 
@@ -126,13 +126,13 @@ Links
 Futher development
 ==================
 
-    * Improve test coverage
+    * Improve test coverage.
 
-    * More API for data download
+    * More API for data download.
 
-    * More technical indicators
+    * More technical indicators.
 
-    * Portfolio optimization tools
+    * Portfolio optimization tools.
 
 Releases
 ========
