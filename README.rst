@@ -70,7 +70,7 @@ Installation
 Usage
 =====
 
-.. literalinclude:: tutorial.py
+.. literalinclude:: /tutorials/tutorial.py
     :language: python
 
 Links
