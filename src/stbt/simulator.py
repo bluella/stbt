@@ -411,18 +411,24 @@ class Strategy(object):
         self.strategy_figure = plt.figure()
 
         ax1 = plt.subplot2grid((12, 1), (0, 0), rowspan=3, colspan=1)
-        ax1.plot(self.data.index.values, self.data.values)
+        ax1.plot(self.data.index, self.data)
         ax1.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
         ax1.xaxis.set_major_locator(mticker.MaxNLocator(5))
-        plt.title('_'.join(self.data.columns))
+        plt.title('Instruments Price')
+        for xlabel_i in ax1.get_xticklabels():
+            xlabel_i.set_visible(False)
+        plt.legend(self.data.columns)
+        plt.yscale('log')
 
-        ax2 = plt.subplot2grid((12, 1), (3, 0), rowspan=6, colspan=1)
+        ax2 = plt.subplot2grid((12, 1), (4, 0), rowspan=5, colspan=1)
         ax2.plot(pnl.index.values, pnl.values)
         ax2.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
         ax2.xaxis.set_major_locator(mticker.MaxNLocator(5))
         plt.title('PnL')
+        for xlabel_i in ax2.get_xticklabels():
+            xlabel_i.set_visible(False)
 
-        ax3 = plt.subplot2grid((12, 1), (9, 0), rowspan=3, colspan=1)
+        ax3 = plt.subplot2grid((12, 1), (10, 0), rowspan=2, colspan=1)
         ax3.plot(self.weights.index.values, self.weights.values)
         ax3.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
         ax3.xaxis.set_major_locator(mticker.MaxNLocator(5))
