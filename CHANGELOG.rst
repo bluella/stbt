@@ -2,6 +2,11 @@
 Changelog
 =========
 
+Version 0.1.3
+=============
+
+- Improved graphs
+- Improved tutorial
 
 Version 0.1.2
 =============
