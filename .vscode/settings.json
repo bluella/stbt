@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "stb_env/bin/python",
+    "python.pythonPath": "/Users/bluella/Documents/stbt/.venv/bin/python3.8",
     "files.watcherExclude": {
         "**/.git/objects/**": true,
         "**/.git/subtree-cache/**": true,
