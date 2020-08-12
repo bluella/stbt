@@ -1,9 +1,20 @@
 {
-    "python.pythonPath": "/Users/bluella/Documents/stbt/.venv/bin/python3.8",
-    "files.watcherExclude": {
-        "**/.git/objects/**": true,
-        "**/.git/subtree-cache/**": true,
-        "**/node_modules/*/**": true,
-        "**/stb_env/**": true
+  "python.pythonPath": ".venv/bin/python",
+  "python.globalModuleInstallation": true,
+  "python.terminal.activateEnvironment": true,
+  "python.linting.enabled": true,
+  "files.exclude": {
+      "**/.DS_Store": true,    // this is a default value
+      "**/__pycache__": true,
+      "**/.ipynb_checkpoints": true,
+      "**/*.pyc": true
+                          },
+
+  "files.watcherExclude": {
+      "**/.git**": true,         // this is a default value
+      "**/node_modules/*/**": true,
+      "**/.venv**": true,
+      "**/__pycache__": true,
+      "**/*.pyc": true
       }
 }
