@@ -77,7 +77,7 @@ Usage
     import matplotlib.pyplot as plt
     from stbt.simulator import Strategy
     from stbt.download_ohlc.cryptocurrency import get_ohlc_cryptocompare
-    from stbt.indicators.technical import skewness
+    from stbt.operators.technical import skewness
 
     # get trading data from cryptocompare
     BTC_TICKER = 'BTC'
