@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
-matplotlib.use('TkAgg')
 
 def plot_charts(df_ohlc):
     """Function to plot simple Close/Volume graph
