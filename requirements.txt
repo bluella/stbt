@@ -6,7 +6,7 @@ attrs==19.1.0
 autopep8==1.4.4
 Babel==2.6.0
 bleach==3.1.4
-certifi==2019.3.9
+certifi==2022.12.7
 chardet==3.0.4
 cycler==0.10.0
 decorator==4.4.0
